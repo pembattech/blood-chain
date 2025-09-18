@@ -16,8 +16,8 @@ class UserController extends Controller
     return response()->json([
         'profile_complete' => $user->isProfileComplete(),
         'message' => $user->isProfileComplete() 
-            ? 'Donor profile already exists.'
-            : 'Please complete donor profile.',
+            ? '✅ Donor profile already exists.'
+            : '⛔ Please complete donor profile.',
     ]);
 
     }

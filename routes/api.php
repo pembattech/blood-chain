@@ -2,20 +2,26 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\UserController;
+use App\Http\Controllers\API\V1\DonorController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-use App\Http\Controllers\API\V1\AuthController;
-use App\Http\Controllers\API\V1\UserController;
-
 Route::prefix('v1')->group(function () {
+    // Auth routes
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-    // User Controller
-    Route::middleware('auth:sanctum')->get('/user/profile-status', [UserController::class, 'profileStatus']);
+    // Protected routes
+    Route::middleware('auth:sanctum')->group(function () {
+        // User profile
+        Route::get('/user/profile-status', [UserController::class, 'profileStatus']);
 
+        // Donors resource routes
+        Route::apiResource('donors', DonorController::class);
+    });
 });

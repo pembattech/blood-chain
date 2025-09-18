@@ -52,10 +52,17 @@ class AuthController extends Controller
 
         $token = $user->createToken('api_token')->plainTextToken;
 
+        // Check if user has completed donor profile
+        $profileMessage = $user->isProfileComplete()
+            ? '✅ Donor profile already exists.'
+            : '⛔ Please complete donor profile.';
+
         return response()->json([
             'status' => 'success',
             'user' => $user,
             'token' => $token,
+            'profile_status' => $user->isProfileComplete(),
+            'message' => $profileMessage,
         ]);
     }
 

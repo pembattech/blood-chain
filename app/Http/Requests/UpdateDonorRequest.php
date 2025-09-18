@@ -11,7 +11,7 @@ class UpdateDonorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateDonorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'blood_type'        => 'in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'location_lat'      => 'numeric',
+            'location_lng'      => 'numeric',
+            'last_donation_date'=> 'nullable|date',
+            'available'         => 'boolean',
         ];
     }
 }
