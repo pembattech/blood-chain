@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'phone'
+        'phone',
+        "blood_type",
     ];
 
     /**
@@ -50,7 +51,7 @@ class User extends Authenticatable
         ];
     }
 
-     /**
+    /**
      * One-to-One relationship with Donor
      */
     public function donor()

@@ -3,7 +3,7 @@
 **Endpoint:**
 
 ```
-POST /up
+POST /register
 ```
 
 **Description:**

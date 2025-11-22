@@ -12,11 +12,11 @@ class Donor extends Model
 
     protected $fillable = [
         "user_id",
-        "blood_type",
         "location_lat",
         "location_lng",
         "last_donation_date",
         "available",
+        "health_condition"
     ];
 
 

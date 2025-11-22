@@ -20,13 +20,14 @@ class DonorResource extends JsonResource
                 'id' => $this->user->id,
                 'name' => $this->user->name,
                 'email' => $this->user->email,
+                'blood_type' => $this->user->blood_type,
             ],
-            'blood_type' => $this->blood_type,
             'location' => [
                 'lat' => $this->location_lat,
                 'lng' => $this->location_lng,
             ],
             'last_donation_date' => $this->last_donation_date,
+            'health_condition' => $this->health_condition,
             'available' => $this->available,
             'created_at' => $this->created_at->toDateTimeString(),
         ];
