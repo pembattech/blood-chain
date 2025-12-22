@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('blood_requests', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // BIGINT UNSIGNED AUTO_INCREMENT primary key
+            $table->foreignId('recipient_id')->constrained('users')->onDelete('cascade');
+            $table->enum('blood_type_needed', ['A+','A-','B+','B-','AB+','AB-','O+','O-']);
+            $table->enum('urgency', ['low','medium','high']);
+            $table->decimal('location_lat', 10, 8);
+            $table->decimal('location_lng', 11, 8);
+            $table->enum('status', ['pending','accepted','fulfilled'])->default('pending');
+            $table->timestamps(); // created_at and updated_at
         });
     }
 

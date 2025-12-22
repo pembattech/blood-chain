@@ -16,14 +16,22 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed', // password_confirmation field required
+            'phone' => 'required|string|max:20|unique:users',
+            'blood_type' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'role' => 'in:donor,recipient,admin',
+            'password' => 'required|string|min:6|confirmed',
         ]);
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'blood_type' => $request->blood_type,
+            'role' => $request->role ?? 'donor',
             'password' => Hash::make($request->password),
         ]);
+
 
         $token = $user->createToken('api_token')->plainTextToken;
 

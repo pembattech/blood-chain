@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\DonorController;
+use App\Http\Controllers\API\V1\BloodRequestController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -23,5 +24,10 @@ Route::prefix('v1')->group(function () {
 
         // Donors resource routes
         Route::apiResource('donors', DonorController::class);
+
+        // Blood Requests resource routes
+        Route::apiResource('blood-requests', BloodRequestController::class);
+        
+
     });
 });

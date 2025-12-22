@@ -11,18 +11,31 @@ class StoreBloodRequestRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Any authenticated user (donor or recipient) can request blood
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'blood_type_needed' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'urgency'           => 'required|in:low,medium,high',
+            'location_lat'      => 'required|numeric|between:-90,90',
+            'location_lng'      => 'required|numeric|between:-180,180',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     * Automatically attach the logged-in user as recipient.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'recipient_id' => auth()->id(),
+        ]);
     }
 }

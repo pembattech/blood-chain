@@ -65,7 +65,7 @@ class User extends Authenticatable
     public function isProfileComplete(): bool
     {
         $donor = $this->donor;
-        return $donor && $donor->blood_type && $donor->location_lat && $donor->location_lng;
+        return $donor && $donor->location_lat && $donor->location_lng && $donor->health_condition !== null;
     }
 }
 

@@ -1,3 +1,5 @@
+tokens.json
+api.md
 *.log
 .DS_Store
 .env
