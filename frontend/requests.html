@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Chain | Blood Requests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f0f4f8; font-family: 'Inter', sans-serif; }
+        .gradient-header { background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%); }
+        .sidebar-shadow { box-shadow: 4px 0px 15px rgba(0,0,0,0.05); }
+        .request-card:hover { border-color: #457b9d; transform: translateY(-2px); transition: all 0.2s ease; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <aside class="w-64 bg-white sidebar-shadow fixed h-full z-20">
+        <div class="p-6">
+            <div class="flex items-center gap-2 text-red-600 font-bold text-xl mb-10">
+                <i class="fa-solid fa-droplet text-2xl"></i>
+                <span>Blood Chain</span>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-table-columns"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+                <a href="#" class="flex items-center gap-3 bg-blue-600 text-white p-3 rounded-lg shadow-md justify-between">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-list-check"></i> Requests</span>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-users"></i> Donors
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-bell"></i> Notifications
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="flex-1 ml-64">
+        <div class="gradient-header h-40 w-full p-8 text-white relative">
+            <div class="max-w-5xl mx-auto flex justify-between items-end h-full pb-4">
+                <div>
+                    <h2 class="text-3xl font-bold">Active Blood Requests</h2>
+                    <p class="text-blue-100 text-sm">Find people who need your help nearby</p>
+                </div>
+                <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus text-sm"></i> Create Request
+                </button>
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-8 py-8">
+            <div class="bg-white p-4 rounded-xl shadow-sm mb-8 flex flex-wrap items-center gap-4">
+                <div class="flex-1 min-w-[300px] relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
+                    <input type="text" placeholder="Search by hospital, city or blood type..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-blue-400">
+                </div>
+                <div class="flex gap-2">
+                    <select class="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none">
+                        <option>Blood Type (All)</option>
+                        <option>O+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                    </select>
+                    <select class="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none">
+                        <option>Radius: 10km</option>
+                        <option>Radius: 25km</option>
+                        <option>City-wide</option>
+                    </select>
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">
+                        <i class="fa-solid fa-sliders mr-2"></i>More Filters
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                
+                <div class="bg-white border-2 border-transparent request-card rounded-xl p-6 shadow-sm flex items-center justify-between border-l-8 border-l-red-500">
+                    <div class="flex gap-6 items-center">
+                        <div class="bg-red-50 text-red-600 w-16 h-16 rounded-full flex flex-col items-center justify-center font-bold">
+                            <span class="text-lg">O+</span>
+                            <span class="text-[10px] uppercase">Group</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <h4 class="text-lg font-bold text-gray-800">City General Hospital - ER</h4>
+                                <span class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">CRITICAL</span>
+                            </div>
+                            <p class="text-sm text-gray-500 flex items-center gap-4">
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> 2.4 km away</span>
+                                <span><i class="fa-solid fa-clock mr-1"></i> Posted 15 mins ago</span>
+                                <span><i class="fa-solid fa-user-group mr-1"></i> 2 Donors needed</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button class="text-blue-600 font-bold text-sm hover:underline">View Details</button>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold transition shadow-md">
+                            I'm Available
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-transparent request-card rounded-xl p-6 shadow-sm flex items-center justify-between border-l-8 border-l-blue-400">
+                    <div class="flex gap-6 items-center">
+                        <div class="bg-blue-50 text-blue-600 w-16 h-16 rounded-full flex flex-col items-center justify-center font-bold">
+                            <span class="text-lg">AB-</span>
+                            <span class="text-[10px] uppercase">Group</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <h4 class="text-lg font-bold text-gray-800">St. Mary's Children Ward</h4>
+                                <span class="bg-blue-100 text-blue-600 text-[10px] px-2 py-0.5 rounded-full font-bold">PLANNED SURGERY</span>
+                            </div>
+                            <p class="text-sm text-gray-500 flex items-center gap-4">
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> 5.8 km away</span>
+                                <span><i class="fa-solid fa-clock mr-1"></i> Posted 2 hours ago</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button class="text-blue-600 font-bold text-sm hover:underline">View Details</button>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold transition shadow-md">
+                            I'm Available
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border-2 border-transparent request-card rounded-xl p-6 shadow-sm flex items-center justify-between border-l-8 border-l-red-500">
+                    <div class="flex gap-6 items-center">
+                        <div class="bg-red-50 text-red-600 w-16 h-16 rounded-full flex flex-col items-center justify-center font-bold">
+                            <span class="text-lg">B+</span>
+                            <span class="text-[10px] uppercase">Group</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <h4 class="text-lg font-bold text-gray-800">Emergency Response Center</h4>
+                                <span class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">URGENT</span>
+                            </div>
+                            <p class="text-sm text-gray-500 flex items-center gap-4">
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> 1.2 km away</span>
+                                <span><i class="fa-solid fa-clock mr-1"></i> Posted 1 hour ago</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button class="text-blue-600 font-bold text-sm hover:underline">View Details</button>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold transition shadow-md">
+                            I'm Available
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex justify-center mt-10 gap-2">
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-400"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-600 text-white font-bold">1</button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50">2</button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50">3</button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-400"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

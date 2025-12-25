@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Chain | Donor Directory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f0f4f8; font-family: 'Inter', sans-serif; }
+        .gradient-header { background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%); }
+        .sidebar-shadow { box-shadow: 4px 0px 15px rgba(0,0,0,0.05); }
+        .donor-card:hover { border-color: #457b9d; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <aside class="w-64 bg-white sidebar-shadow fixed h-full z-20">
+        <div class="p-6">
+            <div class="flex items-center gap-2 text-red-600 font-bold text-xl mb-10">
+                <i class="fa-solid fa-droplet text-2xl"></i>
+                <span>Blood Chain</span>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-table-columns"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition justify-between">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-list-check"></i> Requests</span>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </a>
+                <a href="#" class="flex items-center gap-3 bg-blue-600 text-white p-3 rounded-lg shadow-md">
+                    <i class="fa-solid fa-users"></i> Donors
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-bell"></i> Notifications
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="flex-1 ml-64">
+        <div class="gradient-header h-40 w-full p-8 text-white relative">
+            <div class="max-w-6xl mx-auto flex justify-between items-end h-full pb-4">
+                <div>
+                    <h2 class="text-3xl font-bold">Donor Directory</h2>
+                    <p class="text-blue-100 text-sm">Browse and connect with compatible blood donors</p>
+                </div>
+                <div class="flex gap-3">
+                    <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                        <i class="fa-solid fa-map-location-dot mr-2"></i>Map View
+                    </button>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg transition">
+                        <i class="fa-solid fa-download mr-2"></i>Export List
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-8 py-8">
+            <div class="flex gap-4 mb-8">
+                <div class="flex-1 relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+                    <input type="text" placeholder="Search donors by name, blood type, or location..." class="w-full pl-12 pr-4 py-3 bg-white border border-transparent shadow-sm rounded-xl outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+                <select class="bg-white border-transparent shadow-sm rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-400">
+                    <option>All Blood Types</option>
+                    <option>O Positive (O+)</option>
+                    <option>O Negative (O-)</option>
+                    <option>A Positive (A+)</option>
+                    <option>B Negative (B-)</option>
+                </select>
+                <select class="bg-white border-transparent shadow-sm rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-400">
+                    <option>Status: All</option>
+                    <option>Available Now</option>
+                    <option>On Cool-down</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="bg-white rounded-2xl p-6 border-2 border-transparent donor-card shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-3">
+                        <span class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded">AVAILABLE</span>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://i.pravatar.cc/150?u=1" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">Alex Johnson</h4>
+                            <p class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot"></i> Brooklyn, NY
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl mb-6">
+                        <div class="text-center flex-1 border-r">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Group</p>
+                            <p class="text-lg font-bold text-red-600">O+</p>
+                        </div>
+                        <div class="text-center flex-1">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Donations</p>
+                            <p class="text-lg font-bold text-blue-900">8</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-bold transition">Request Blood</button>
+                        <button class="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50"><i class="fa-solid fa-envelope"></i></button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border-2 border-transparent donor-card shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-3">
+                        <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-1 rounded uppercase">Cool-down (12d)</span>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://i.pravatar.cc/150?u=2" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">Sarah Miller</h4>
+                            <p class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot"></i> Queens, NY
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl mb-6">
+                        <div class="text-center flex-1 border-r">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Group</p>
+                            <p class="text-lg font-bold text-red-600">B-</p>
+                        </div>
+                        <div class="text-center flex-1">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Donations</p>
+                            <p class="text-lg font-bold text-blue-900">14</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-gray-200 text-gray-400 py-2 rounded-lg text-sm font-bold cursor-not-allowed">Unavailable</button>
+                        <button class="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50"><i class="fa-solid fa-envelope"></i></button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border-2 border-transparent donor-card shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-3">
+                        <span class="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded">AVAILABLE</span>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://i.pravatar.cc/150?u=5" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">David Chen</h4>
+                            <p class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot"></i> Manhattan, NY
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl mb-6">
+                        <div class="text-center flex-1 border-r">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Group</p>
+                            <p class="text-lg font-bold text-red-600">AB+</p>
+                        </div>
+                        <div class="text-center flex-1">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Donations</p>
+                            <p class="text-lg font-bold text-blue-900">3</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-bold transition">Request Blood</button>
+                        <button class="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50"><i class="fa-solid fa-envelope"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
