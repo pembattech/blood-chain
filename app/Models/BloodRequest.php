@@ -36,4 +36,10 @@ class BloodRequest extends Model
     {
         return $this->belongsTo(User::class, 'recipient_id');
     }
+
+    public function matches()
+{
+    return $this->hasMany(matches::class);
+}
+
 }

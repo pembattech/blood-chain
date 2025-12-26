@@ -22,9 +22,13 @@ class StoreBloodRequestRequest extends FormRequest
     {
         return [
             'blood_type_needed' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
-            'urgency'           => 'required|in:low,medium,high',
-            'location_lat'      => 'required|numeric|between:-90,90',
-            'location_lng'      => 'required|numeric|between:-180,180',
+            'urgency' => 'required|in:low,medium,high',
+            'location_lat' => 'required|numeric|between:-90,90',
+            'location_lng' => 'required|numeric|between:-180,180',
+
+            // Add these to include them in $request->validated()
+            'recipient_id' => 'required|exists:users,id',
+            'status' => 'required|string'
         ];
     }
 
@@ -36,6 +40,7 @@ class StoreBloodRequestRequest extends FormRequest
     {
         $this->merge([
             'recipient_id' => auth()->id(),
+            'status' => 'pending',
         ]);
     }
 }
