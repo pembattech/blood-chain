@@ -18,7 +18,9 @@ class UserController extends Controller
             'message' => $user->isProfileComplete()
                 ? '✅ Donor profile already exists.'
                 : '⛔ Please complete donor profile.',
-            'user' => $user
+            'user' => $user,
+            'status' => $user->isProfileComplete()
+                ? true : false
         ]);
 
     }

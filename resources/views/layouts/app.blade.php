@@ -41,7 +41,7 @@
 
     {{-- Sidebar --}}
     <aside class="w-64 bg-white sidebar-shadow fixed h-full z-20">
-        <div class="p-6">
+        <div class="p-6 relative h-full flex flex-col">
             <div class="flex items-center gap-2 text-red-600 font-bold text-xl mb-10">
                 <i class="fa-solid fa-droplet text-2xl"></i>
                 <span>Blood Chain</span>
@@ -75,7 +75,17 @@
                     class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg">
                     <i class="fa-solid fa-bell"></i> Notifications
                 </a>
+
+
             </nav>
+            <div class="absolute bottom-4">
+                <button id="logout-btn"
+                    class="w-auto flex items-center gap-3 text-gray-500 hover:bg-gray-100 p-3 rounded-lg transition">
+                    <i class="fa-solid fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+
         </div>
     </aside>
 
@@ -88,8 +98,8 @@
 
 
     <script>
-        // Get token from Blade (env or logged-in user)
-        const apiToken = "{{ env('API_TOKEN') }}";
+        // const apiToken = "{{ env('API_TOKEN') }}";
+        const apiToken = localStorage.getItem('access_token');
 
         // Set up global AJAX defaults
         $.ajaxSetup({
@@ -98,6 +108,14 @@
                 'Authorization': 'Bearer ' + apiToken
             }
         });
+
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                // Remove token from localStorage
+                localStorage.removeItem('access_token');
+
+                // Optional: redirect to login page
+                window.location.href = "{{ route('login') }}";
+            });
     </script>
 </body>
 
