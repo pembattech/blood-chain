@@ -74,6 +74,7 @@
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function(res) {
+                        localStorage.setItem('donor-reg', true);
                         $('#alert')
                             .removeClass('hidden bg-red-500')
                             .addClass('bg-green-500')

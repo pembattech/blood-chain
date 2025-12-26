@@ -39,12 +39,24 @@
 
 <body class="min-h-screen">
 
+    <script>
+        const token = localStorage.getItem('access_token');
+        const donorReg = localStorage.getItem('donor-reg');
+        
+        if(token && donorReg){
+            // User is already logged in, redirect immediately
+            window.location.href = '/';
+        }
+    </script>
+
+
     {{-- Main Content --}}
     <main class="flex justify-center items-center min-h-screen">
         @yield('content')
     </main>
 
     @stack('scripts')
+
 
 </body>
 

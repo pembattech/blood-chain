@@ -69,6 +69,7 @@ $(document).ready(function(){
                                 window.location.href = '/donor-registration';
                             }, 1200);
                         } else {
+                        localStorage.setItem('donor-reg', true);
                             $('#alert')
                                 .removeClass('hidden bg-red-500')
                                 .addClass('bg-green-500')

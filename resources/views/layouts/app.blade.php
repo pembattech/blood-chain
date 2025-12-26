@@ -101,6 +101,8 @@
         // const apiToken = "{{ env('API_TOKEN') }}";
         const apiToken = localStorage.getItem('access_token');
 
+
+
         // Set up global AJAX defaults
         $.ajaxSetup({
             headers: {
@@ -109,13 +111,14 @@
             }
         });
 
-            document.getElementById('logout-btn').addEventListener('click', function() {
-                // Remove token from localStorage
-                localStorage.removeItem('access_token');
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            // Remove token from localStorage
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('donor-reg');
 
-                // Optional: redirect to login page
-                window.location.href = "{{ route('login') }}";
-            });
+            // Optional: redirect to login page
+            window.location.href = "{{ route('login') }}";
+        });
     </script>
 </body>
 
