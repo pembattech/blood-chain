@@ -1,6 +1,7 @@
 tokens.json
 api.md
 test.md
+TODO
 *.log
 .DS_Store
 .env
