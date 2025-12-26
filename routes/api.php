@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\DonorController;
 use App\Http\Controllers\API\V1\BloodRequestController;
+use App\Http\Controllers\API\V1\MatchesController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -20,6 +21,10 @@ Route::prefix('v1')->group(function () {
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
         // User profile
+
+
+        Route::get('/v1/user/profile', [UserController::class, 'profile']);
+
         Route::get('/user/profile-status', [UserController::class, 'profileStatus']);
 
         // Donors resource routes
@@ -27,7 +32,11 @@ Route::prefix('v1')->group(function () {
 
         // Blood Requests resource routes
         Route::apiResource('blood-requests', BloodRequestController::class);
-        
+
+        // Matches routes
+        Route::get('/matches/compatible', [MatchesController::class, 'fetchMatching']);
+
+
 
     });
 });

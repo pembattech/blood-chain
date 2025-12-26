@@ -8,17 +8,165 @@ use App\Http\Requests\UpdateBloodRequestRequest;
 use App\Http\Resources\V1\BloodRequestResource;
 use App\Services\BloodMatchingService;
 use App\Models\BloodRequest;
+use App\Models\Donor;
+use Illuminate\Http\Request;
 
 class BloodRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * Returns only blood requests compatible with the logged-in user’s blood type
+     * Calculates distance from user geolocation
+     * Adds compatible donors count
      */
-    public function index()
+    // public function index()
+    // {
+    //     $bloodRequests = BloodRequest::latest()->paginate(10);
+    //     return BloodRequestResource::collection($bloodRequests);
+    // }
+
+
+    public function index(Request $request)
     {
-        $bloodRequests = BloodRequest::latest()->paginate(10);
-        return BloodRequestResource::collection($bloodRequests);
+        $user = $request->user();
+        $userBloodType = $user->blood_type ?? null;
+
+        // Initialize query
+        $query = BloodRequest::latest();
+
+        // Only show requests compatible with user's blood type
+        if ($userBloodType) {
+            $compatibleRequests = $this->compatibleRecipients($userBloodType);
+            $query->whereIn('blood_type_needed', $compatibleRequests);
+        }
+
+        // Pagination
+        $bloodRequests = $query->paginate(10);
+
+        $userLat = $request->user_lat;
+        $userLng = $request->user_lng;
+
+        // Transform results
+        $bloodRequests->getCollection()->transform(function ($req) use ($userLat, $userLng) {
+            // Calculate distance
+            $req->distance = ($userLat && $userLng && $req->location_lat)
+                ? round($this->calculateDistance($userLat, $userLng, $req->location_lat, $req->location_lng), 2)
+                : null;
+
+            $req->posted = $req->created_at->diffForHumans();
+
+            // Compatible donors count
+            $compatibleTypes = $this->compatibleDonors($req->blood_type_needed);
+            $req->compatible_donors_count = Donor::where('available', true)
+                ->whereHas('user', fn($q) => $q->whereIn('blood_type', $compatibleTypes))
+                ->count();
+
+            return $req;
+        });
+
+        return response()->json([
+            'data' => $bloodRequests->items(),
+            'meta' => [
+                'current_page' => $bloodRequests->currentPage(),
+                'last_page' => $bloodRequests->lastPage(),
+                'total' => $bloodRequests->total(),
+            ]
+        ]);
     }
+
+    /**
+     * Return all recipient blood types that the donor's blood type is compatible with
+     */
+    private function compatibleRecipients(string $donorType): array
+    {
+        return match ($donorType) {
+            'O+' => ['O+', 'A+', 'B+', 'AB+'],
+            'O-' => ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'],
+            'A+' => ['A+', 'AB+'],
+            'A-' => ['A+', 'A-', 'AB+', 'AB-'],
+            'B+' => ['B+', 'AB+'],
+            'B-' => ['B+', 'B-', 'AB+', 'AB-'],
+            'AB+' => ['AB+'],
+            'AB-' => ['AB+', 'AB-'],
+            default => [],
+        };
+    }
+
+
+    // public function index(Request $request, BloodMatchingService $service)
+    // {
+    //     $query = BloodRequest::latest();
+
+    //     if ($request->search) {
+    //         $query->where('hospital', 'like', "%{$request->search}%")
+    //             ->orWhere('city', 'like', "%{$request->search}%")
+    //             ->orWhere('blood_type_needed', 'like', "%{$request->search}%");
+    //     }
+
+    //     if ($request->blood_type) {
+    //         $query->where('blood_type_needed', $request->blood_type);
+    //     }
+
+    //     $bloodRequests = $query->paginate(10);
+
+    //     $userLat = $request->user_lat;
+    //     $userLng = $request->user_lng;
+
+    //     $bloodRequests->getCollection()->transform(function ($req) use ($userLat, $userLng, $service) {
+    //         // Calculate distance if coordinates provided
+    //         if ($userLat && $userLng) {
+    //             $req->distance = round($this->calculateDistance(
+    //                 $userLat,
+    //                 $userLng,
+    //                 $req->location_lat,
+    //                 $req->location_lng
+    //             ), 2);
+    //         } else {
+    //             $req->distance = null;
+    //         }
+
+    //         // Human-readable posted time
+    //         $req->posted = $req->created_at->diffForHumans();
+
+    //         // Compatible donors
+    //         $compatibleTypes = $service->compatibleDonors($req->blood_type_needed);
+    //         $req->compatible_donors_count = \App\Models\Donor::where('available', true)
+    //             ->whereHas('user', fn($q) => $q->whereIn('blood_type', $compatibleTypes))
+    //             ->count();
+
+    //         return $req;
+    //     });
+
+    //     return BloodRequestResource::collection($bloodRequests);
+    // }
+
+    private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+    {
+        $r = 6371;
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLng = deg2rad($lng2 - $lng1);
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+            cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+            sin($dLng / 2) * sin($dLng / 2);
+        return $r * 2 * atan2(sqrt($a), sqrt(1 - $a));
+    }
+
+    private function compatibleDonors(string $recipientType): array
+    {
+        return match ($recipientType) {
+            'A+' => ['A+', 'A-', 'O+', 'O-'],
+            'A-' => ['A-', 'O-'],
+            'B+' => ['B+', 'B-', 'O+', 'O-'],
+            'B-' => ['B-', 'O-'],
+            'AB+' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+            'AB-' => ['A-', 'B-', 'AB-', 'O-'],
+            'O+' => ['O+', 'O-'],
+            'O-' => ['O-'],
+            default => [],
+        };
+    }
+
 
     /**
      * Show the form for creating a new resource.
