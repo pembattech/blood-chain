@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\BloodDonation;
 
 
 class UserController extends Controller
@@ -30,16 +31,19 @@ class UserController extends Controller
     {
         $user = $request->user();
 
+        $donor = $user->donor;
+
         // Fetch donations count
-        $donationsCount = BloodDonation::where('donor_id', $user->id)->count();
+        $donationsCount = $donor ? BloodDonation::where('donor_id', $donor->id)->count() : 0;
+
 
         // Fetch last donation
-        $lastDonation = BloodDonation::where('donor_id', $user->id)
+        $lastDonation = BloodDonation::where('donor_id', $donor->id)
             ->latest('date')
             ->first();
 
         // Fetch all donations for history
-        $donations = BloodDonation::where('donor_id', $user->id)
+        $donations = BloodDonation::where('donor_id', $donor->id)
             ->orderByDesc('date')
             ->get(['location', 'date', 'units', 'status']);
 
@@ -51,9 +55,11 @@ class UserController extends Controller
         return response()->json([
             'user' => $user,
             'donations_count' => $donationsCount,
-            'rank' => $rank,
-            'last_donation' => $lastDonation ? $lastDonation->date->format('Y-m-d') : null,
+            // 'rank' => $rank,
+            'last_donation' => $lastDonation ? $lastDonation : null,
             'donations' => $donations,
         ]);
+
+
     }
 }

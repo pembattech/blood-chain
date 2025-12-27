@@ -28,16 +28,16 @@
                             <i class="fa-solid fa-camera text-white text-xl"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">John Doe</h3>
-                    <p class="text-gray-500 text-sm mb-4">Member since Jan 2024</p>
-                    <div class="inline-block bg-red-100 text-red-600 font-bold px-4 py-1 rounded-full text-lg">
+                    <h3 id="user-name" class="user-name text-xl font-bold text-gray-800"></h3>
+                    <p id="member-since" class="text-gray-500 text-sm mb-4">Member since Jan 2024</p>
+                    <div id="blood-group" class="inline-block bg-red-100 text-red-600 font-bold px-4 py-1 rounded-full text-lg">
                         Blood Group: O+
                     </div>
 
                     <div class="mt-6 grid grid-cols-2 gap-4 border-t pt-6">
                         <div>
                             <p class="text-xs text-gray-400 uppercase">Donations</p>
-                            <p class="text-xl font-bold text-blue-900">12</p>
+                            <p id="donations-count" class="text-xl font-bold text-blue-900">12</p>
                         </div>
                         <div>
                             <p class="text-xs text-gray-400 uppercase">Rank</p>
@@ -51,17 +51,17 @@
                         <i class="fa-solid fa-circle-info text-blue-500"></i> Quick Info
                     </h4>
                     <ul class="space-y-3 text-sm">
-                        <li class="flex justify-between">
+                        {{-- <li class="flex justify-between">
                             <span class="text-gray-500">Age:</span>
                             <span class="font-medium">28 Years</span>
                         </li>
                         <li class="flex justify-between">
                             <span class="text-gray-500">Weight:</span>
                             <span class="font-medium">75 kg</span>
-                        </li>
+                        </li> --}}
                         <li class="flex justify-between">
                             <span class="text-gray-500">Last Donation:</span>
-                            <span class="font-medium text-red-500">12 June 2024</span>
+                            <span  class="last-donation-date font-medium text-red-500">12 June 2024</span>
                         </li>
                     </ul>
                 </div>
@@ -73,20 +73,20 @@
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label class="text-xs font-bold text-gray-400 uppercase">Full Name</label>
-                            <p class="text-gray-800 font-medium border-b border-gray-100 py-2">Johnathon Doe</p>
+                            <p id="user-name" class="user-name text-gray-800 font-medium border-b border-gray-100 py-2"></p>
                         </div>
                         <div>
                             <label class="text-xs font-bold text-gray-400 uppercase">Email Address</label>
-                            <p class="text-gray-800 font-medium border-b border-gray-100 py-2">j.doe@example.com</p>
+                            <p id="user-email" class="user-email text-gray-800 font-medium border-b border-gray-100 py-2"></p>
                         </div>
                         <div>
                             <label class="text-xs font-bold text-gray-400 uppercase">Phone Number</label>
-                            <p class="text-gray-800 font-medium border-b border-gray-100 py-2">+1 (555) 000-1234</p>
+                            <p id="user-phone" class="text-gray-800 font-medium border-b border-gray-100 py-2"></p>
                         </div>
-                        <div>
+                        {{-- <div>
                             <label class="text-xs font-bold text-gray-400 uppercase">Location</label>
                             <p class="text-gray-800 font-medium border-b border-gray-100 py-2">Downtown, New York</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -141,4 +141,99 @@
 
         </div>
     </div>
+
+
+
+
+    <script>
+        $(document).ready(function() {
+
+            $.ajax({
+                url: '/api/v1/user/profile',
+                type: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(res) {
+                    if (!res.user) return;
+
+                    const user = res.user;
+
+                    // --- Basic Info ---
+                    $('.user-name').text(user.name);
+                    $('.user-email').text(user.email);
+                    $('#user-phone').text(user.phone ?? 'N/A');
+
+                    // Display donor location if available
+                    let locationText = 'N/A';
+                    if (user.donor && user.donor.location_lat && user.donor.location_lng) {
+                        locationText = `${user.donor.location_lat}, ${user.donor.location_lng}`;
+                    }
+                    $('#user-location').text(locationText);
+
+                    $('#blood-group').text('Blood Group: ' + (user.blood_type ?? 'N/A'));
+
+                    const created = new Date(user.created_at);
+                    $('#member-since').text(
+                        'Member since ' + created.toLocaleDateString('en-US', {
+                            month: 'short',
+                            year: 'numeric'
+                        })
+                    );
+
+                    // --- Donation Info ---
+                    const donationsCount = res.donations_count ?? 0;
+                    const lastDonation = res.last_donation;
+                    const donationHistory = res.donations ?? [];
+
+                    // Update quick info / stats
+                    $('#donations-count').text(donationsCount);
+                    $('.last-donation-date').text(lastDonation ? new Date(lastDonation.date)
+                        .toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                        }) : 'N/A');
+
+                    // --- Populate donation table ---
+                    const tbody = $('table tbody');
+                    tbody.empty();
+
+                    if (donationHistory.length === 0) {
+                        tbody.append(
+                            '<tr><td colspan="4" class="text-center py-4 text-gray-500">No donations yet</td></tr>'
+                            );
+                    } else {
+                        donationHistory.forEach(d => {
+                            const statusClass = d.status === 'completed' ?
+                                'bg-green-100 text-green-600' :
+                                d.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-gray-100 text-gray-600';
+
+                            tbody.append(`
+                        <tr class="border-b last:border-0 hover:bg-gray-50 transition">
+                            <td class="py-4 font-medium">${d.location}</td>
+                            <td class="py-4 text-gray-500">${new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                            <td class="py-4 text-gray-500">${d.units} Unit${d.units > 1 ? 's' : ''}</td>
+                            <td class="py-4">
+                                <span class="${statusClass} px-2 py-1 rounded text-[10px] font-bold uppercase">${d.status}</span>
+                            </td>
+                        </tr>
+                    `);
+                        });
+                    }
+
+                },
+                error: function(err) {
+                    console.error('Failed to fetch user profile', err);
+                    // window.location.href = '/login';
+                }
+            });
+
+        });
+    </script>
+
 @endsection

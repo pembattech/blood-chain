@@ -43,3 +43,9 @@ Route::get('requests', function(){
 Route::get('create-request', function(){
     return view('create-request');
 })->name("create-request");
+
+Route::get('/donate/{match}', function ($match) {
+    return view('donation', [
+        'matchId' => $match
+    ]);
+})->name('donate.page');

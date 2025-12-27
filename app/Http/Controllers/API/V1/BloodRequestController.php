@@ -41,6 +41,9 @@ class BloodRequestController extends Controller
             $query->whereIn('blood_type_needed', $compatibleRequests);
         }
 
+        // Only show requests that are not fulfilled
+        $query->where('status', '!=', 'fulfilled');
+
         // Pagination
         $bloodRequests = $query->paginate(10);
 
@@ -66,6 +69,7 @@ class BloodRequestController extends Controller
         });
 
         return response()->json([
+            'user' => $user->load('donor'),
             'data' => $bloodRequests->items(),
             'meta' => [
                 'current_page' => $bloodRequests->currentPage(),
@@ -245,7 +249,32 @@ class BloodRequestController extends Controller
      */
     public function show(BloodRequest $bloodRequest)
     {
-        return new BloodRequestResource($bloodRequest);
+        $request = BloodRequest::with('recipient')->find($bloodRequest->id);
+
+        if (!$request) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Blood request not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'request' => [
+                'id' => $request->id,
+                'blood_type_needed' => $request->blood_type_needed,
+                'urgency' => $request->urgency,
+                'location' => [
+                    'lat' => $request->location_lat,
+                    'lng' => $request->location_lng,
+                ],
+                'status' => $request->status,
+                'recipient' => [
+                    'name' => $request->recipient->name,
+                    'phone' => $request->recipient->phone,
+                ]
+            ]
+        ]);
     }
 
     /**

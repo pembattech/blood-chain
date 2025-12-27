@@ -7,6 +7,7 @@ use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\DonorController;
 use App\Http\Controllers\API\V1\BloodRequestController;
 use App\Http\Controllers\API\V1\MatchesController;
+use App\Http\Controllers\API\V1\DonationController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -23,7 +24,7 @@ Route::prefix('v1')->group(function () {
         // User profile
 
 
-        Route::get('/v1/user/profile', [UserController::class, 'profile']);
+        Route::get('/user/profile', [UserController::class, 'profile']);
 
         Route::get('/user/profile-status', [UserController::class, 'profileStatus']);
 
@@ -35,6 +36,10 @@ Route::prefix('v1')->group(function () {
 
         // Matches routes
         Route::get('/matches/compatible', [MatchesController::class, 'fetchMatching']);
+
+        // Blood Donations resource routes
+         Route::post('/donate', [DonationController::class, 'createDonation'])
+         ->name('api.donation.create');
 
 
 

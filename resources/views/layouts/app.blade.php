@@ -39,6 +39,17 @@
 
 <body class="flex min-h-screen">
 
+    <script>
+        const token = localStorage.getItem('access_token');
+        const donorReg = localStorage.getItem('donor-reg');
+
+        if (!token && !donorReg) {
+            
+            // User is already logged in, redirect immediately
+            window.location.href = '/login';
+        }
+    </script>
+
     {{-- Sidebar --}}
     <aside class="w-64 bg-white sidebar-shadow fixed h-full z-20">
         <div class="p-6 relative h-full flex flex-col">
@@ -99,7 +110,7 @@
 
     <script>
         // const apiToken = "{{ env('API_TOKEN') }}";
-        const apiToken = localStorage.getItem('access_token');
+        let apiToken = localStorage.getItem('access_token');
 
 
 
