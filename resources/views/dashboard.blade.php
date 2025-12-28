@@ -60,7 +60,7 @@
         </div>
 
     {{-- Requests Section --}}
-    <div class="max-w-6xl mx-auto mt-24 px-8 grid gap-8">
+    <div class="max-w-6xl mx-auto mt-24 px-8 grid gap-8 ">
         <div class="col-span-8 bg-white rounded-xl shadow-sm p-6">
 
             <h3 class="font-bold text-xl mb-6">Compatible Blood Requests</h3>
