@@ -1,63 +1,181 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **Blood Chain**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## **1. Project Overview**
 
-## About Laravel
+* **Project Name:** Blood Chain
+* **Full Title:** *Blood Chain: An Automated Donor–Recipient Matching System*
+* **Project Type:** Academic / BCA Final Year Project
+* **System Nature:** API-based blood donation management system
+* **Core Goal:**
+  To automate blood donor–recipient matching and notifications using a centralized, real-time system.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## **2. Problem Statement**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Manual blood donation systems are slow and unreliable.
+* Lack of instant communication between donors and recipients.
+* No centralized system for donor availability and blood compatibility.
+* Emergency blood requests often fail due to delays.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## **3. System Architecture**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **Architecture Type**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Three-Tier Architecture**
 
-## Laravel Sponsors
+### **Layers**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Presentation Layer**
 
-### Premium Partners
+   * Web or mobile clients
+   * Built using HTML, CSS, JavaScript
+   * Communicates only via APIs
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. **Application Layer**
 
-## Contributing
+   * Laravel (PHP framework)
+   * Business logic:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+     * Authentication
+     * Blood matching
+     * Notifications
+     * Request handling
 
-## Code of Conduct
+3. **Database Layer**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   * MySQL
+   * Stores all system data
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## **4. Technology Stack**
 
-## License
+* **Backend:** Laravel (PHP)
+* **Database:** MySQL
+* **API Style:** RESTful APIs
+* **Frontend (Clients):** HTML, CSS, JavaScript
+* **Authentication:** Laravel Auth / API tokens
+* **Notifications:** Laravel Notification System
+* **Architecture Style:** API-first design
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# blood-chain
-# blood-chain
+---
+
+## **5. Users / Actors**
+
+* **Donor**
+
+  * Registers
+  * Updates blood group, location, availability
+  * Receives notifications
+* **Recipient**
+
+  * Submits blood requests
+  * Tracks request status
+* **Admin**
+
+  * Monitors system activity
+  * Manages users and requests
+
+---
+
+## **6. Core Functionalities**
+
+* User registration and login
+* Donor profile management
+* Blood request submission
+* Automated donor–recipient matching
+* Blood compatibility checking
+* Location-based donor filtering
+* Real-time notifications
+* Donation tracking
+* Admin monitoring
+
+---
+
+## **7. Functional Requirements**
+
+* Register donors and recipients
+* Create and manage blood requests
+* Match donors using blood compatibility rules
+* Send notifications automatically
+* Track donation status
+* Maintain centralized data storage
+
+---
+
+## **8. Non-Functional Requirements**
+
+* **Performance:** Real-time matching and alerts
+* **Security:** Secure authentication and API access
+* **Scalability:** Support increasing users and requests
+* **Usability:** Simple and intuitive interaction
+* **Maintainability:** Modular Laravel MVC structure
+
+---
+
+## **9. Blood Compatibility Rules**
+
+* **O−:** Universal donor
+* **O+:** O+, A+, B+, AB+
+* **A−:** A−, A+, AB−, AB+
+* **A+:** A+, AB+
+* **B−:** B−, B+, AB−, AB+
+* **B+:** B+, AB+
+* **AB−:** AB−, AB+
+* **AB+:** AB+ only
+
+---
+
+## **11. Database Tables (Key)**
+
+* `users`
+* `donors`
+* `blood_requests`
+* `blood_donations`
+* `notifications`
+
+---
+
+## **12. Blood Matching Sequence (Logic Flow)**
+
+1. Recipient submits blood request
+2. System validates request
+3. Compatible donors identified
+4. Location and availability filtering
+5. Notifications sent
+6. Donor responds
+7. Request status updated
+8. Donation recorded
+
+---
+
+## **13. Limitations**
+
+* Requires internet access
+* Depends on accurate donor availability
+* Notification delivery may vary by medium
+
+---
+
+## **14. Future Enhancements**
+
+* [ ] Mobile application integration
+* [ ] GPS-based distance calculation
+* [ ] SMS/WhatsApp notifications
+* [ ] AI-based donor prioritization
+* [ ] Blood bank integration
+* [ ] Analytics dashboard
+
+---
+
+## **20. Ideal Use Cases**
+
+* Emergency blood requests
+* Hospital coordination
+* Community blood donation campaigns
+* Disaster response systems
+
+---
