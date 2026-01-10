@@ -68,6 +68,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'user' => $user,
+            'is_admin' => $user->role === 'admin' ? true : false,
             'token' => $token,
             'profile_status' => $user->isProfileComplete(),
             'message' => $profileMessage,
