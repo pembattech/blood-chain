@@ -171,7 +171,7 @@
 
 ---
 
-## **20. Ideal Use Cases**
+## **15. Ideal Use Cases**
 
 * Emergency blood requests
 * Hospital coordination
